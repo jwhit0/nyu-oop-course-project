@@ -126,7 +126,6 @@ class UserRepository {
   + findByEmail(email): User
 }
 
-' Relationships & Composition
 MainGUI *-- NoteCreationGUI
 MainGUI *-- NoteListGUI
 MainGUI *-- NoteViewGUI
