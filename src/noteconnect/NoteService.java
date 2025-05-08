@@ -6,23 +6,22 @@ import java.util.UUID;
 
 public class NoteService {
     private final NoteRepository repo;
-    // private final UserRepository userRepo;
+    private final UserRepository userRepo;
 
-    public NoteService(NoteRepository repo /*, UserRepository userRepo */) {
+    public NoteService(NoteRepository repo, UserRepository userRepo) {
         this.repo = repo;
-        // this.userRepo = userRepo;
+        this.userRepo = userRepo;
     }
 
-    public Note createNote(String title, String content /*, String userId */) {
-        // TODO: find user by ID
-        // User owner = userRepo.findById(userId);
+    public Note createNote(String title, String content, int userId) {
+        User owner = userRepo.findById(userId);
         Note note = new Note(
                 UUID.randomUUID().toString(),
                 title,
                 content,
                 LocalDateTime.now(),
-                LocalDateTime.now()
-                // , owner
+                LocalDateTime.now(),
+                owner
         );
         repo.save(note);
         return note;
@@ -58,13 +57,12 @@ public class NoteService {
         }
     }
 
-    public void sendNote(String noteId /*, String toUserId */) {
+    public void sendNote(String noteId, int toUserId) {
         Note note = repo.findById(noteId);
         if (note != null) {
-            // TODO:
-            // User user = userRepo.findById(toUserId);
-            // note.shareWith(user);
-            // repo.save(note);
+            User user = userRepo.findById(toUserId);
+            note.shareWith(user);
+            repo.save(note);
         }
     }
 

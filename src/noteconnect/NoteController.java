@@ -7,13 +7,13 @@ public class NoteController {
         this.service = service;
     }
 
-    public void createNote(String title, String content) {
-        service.createNote(title, content);
+    public void createNote(String title, String content, int userId) {
+        service.createNote(title, content, userId);
     }
 
-    /*public void saveNote() {
+    public void saveNote(Note note) {
         service.saveNote(note);
-    }*/
+    }
 
     public void searchNotes(String query) {
         service.searchByTitle(query);
@@ -31,9 +31,9 @@ public class NoteController {
         service.deleteNote(id);
     }
 
-    /*public void sendNoteTo(String id, String userId) {
+    public void sendNoteTo(String id, int userId) {
          service.sendNote(id, userId);
-    }*/
+    }
     
     public void downloadNote(String id) {
         service.downloadContent(id);

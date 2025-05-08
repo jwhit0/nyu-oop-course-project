@@ -11,17 +11,17 @@ public class Note {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    // private User owner;
-    // private List<User> sharedWith = new ArrayList<>();
-    // private List<MediaAttachment> attachments = new ArrayList<>();
+    private User owner;
+    private List<User> sharedWith = new ArrayList<>();
+    private List<MediaAttachment> attachments = new ArrayList<>();
 
-    public Note(String id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt /*, User owner */) {
+    public Note(String id, String title, String content, LocalDateTime createdAt, LocalDateTime updatedAt, User owner) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        // this.owner = owner;
+        this.owner = owner;
     }
 
     // Getters & setters
@@ -37,10 +37,10 @@ public class Note {
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    // public User getOwner() { return owner; }
-    // public void setOwner(User owner) { this.owner = owner; }
-    // public List<User> getSharedWith() { return sharedWith; }
-    // public List<MediaAttachment> getAttachments() { return attachments; }
+    public User getOwner() { return owner; }
+    public void setOwner(User owner) { this.owner = owner; }
+    public List<User> getSharedWith() { return sharedWith; }
+    public List<MediaAttachment> getAttachments() { return attachments; }
 
     @Override
     public boolean equals(Object o) {
@@ -61,15 +61,15 @@ public class Note {
                 + ", updatedAt=" + updatedAt + "]";
     }
 
-    // public void addMedia(MediaAttachment m) {
-    //     attachments.add(m);
-    // }
+    public void addMedia(MediaAttachment m) {
+        attachments.add(m);
+    }
 
-    // public void removeMedia(MediaAttachment m) {
-    //     attachments.remove(m);
-    // }
+    public void removeMedia(MediaAttachment m) {
+        attachments.remove(m);
+    }
 
-    // public void shareWith(User user) {
-    //     sharedWith.add(user);
-    // }
+    public void shareWith(User user) {
+        sharedWith.add(user);
+    }
 }

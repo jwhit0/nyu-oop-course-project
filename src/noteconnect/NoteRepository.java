@@ -20,11 +20,11 @@ public class NoteRepository {
                 .collect(Collectors.toList());
     }
 
-    /* public List<Note> findAll() {
+    /*public List<Note> findAll() {
         return new ArrayList<>(notes.values());
     }*/
 
-    // public List<Note> findByOwner(User owner) {
+    //public List<Note> findByOwner(User owner) {
     // }
 
     // public List<Note> findSharedWith(User user) {
