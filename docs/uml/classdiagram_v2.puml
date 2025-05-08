@@ -91,10 +91,29 @@ class Note {
   - createdAt  : DateTime
   - updatedAt  : DateTime
   - owner      : User
-  - sharedWith : User[]
-  - attachments: MediaAttachment[]
+  - sharedWith : List<User>
+  - attachments: List<MediaAttachment>
+  + Note(id, title, content, createdAt, updatedAt, owner)
+  + getId(): String
+  + setId(id: String)
+  + getTitle(): String
+  + setTitle(title: String)
+  + getContent(): String
+  + setContent(content: String)
+  + getCreatedAt(): LocalDateTime
+  + setCreatedAt(createdAt: LocalDateTime)
+  + getUpdatedAt(): LocalDateTime
+  + setUpdatedAt(updatedAt: LocalDateTime)
+  + getOwner(): User
+  + setOwner(owner: User)
+  + getSharedWith(): List<User>
+  + getAttachments(): List<MediaAttachment>
+  + equals(o: Object): boolean
+  + hashCode(): int
+  + toString(): String
   + addMedia(m): void
   + removeMedia(m): void
+  + shareWith(user: User): void
 }
 
 class MediaAttachment {
