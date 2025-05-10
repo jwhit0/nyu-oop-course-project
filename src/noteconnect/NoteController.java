@@ -1,5 +1,7 @@
 package noteconnect;
 
+import java.io.IOException;
+
 public class NoteController {
     private final NoteService service;
 
@@ -7,11 +9,11 @@ public class NoteController {
         this.service = service;
     }
 
-    public void createNote(String title, String content, int userId) {
+    public void createNote(String title, String content, int userId) throws IOException {
         service.createNote(title, content, userId);
     }
 
-    public void saveNote(Note note) {
+    public void saveNote(Note note) throws IOException {
         service.saveNote(note);
     }
 
@@ -23,15 +25,15 @@ public class NoteController {
         service.getNoteById(id);
     }
 
-    public void editNote(String id, String content) {
+    public void editNote(String id, String content) throws IOException {
         service.updateNote(id, content);
     }
 
-    public void deleteNote(String id) {
+    public void deleteNote(String id) throws IOException {
         service.deleteNote(id);
     }
 
-    public void sendNoteTo(String id, int userId) {
+    public void sendNoteTo(String id, int userId) throws IOException {
          service.sendNote(id, userId);
     }
     
