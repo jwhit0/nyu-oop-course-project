@@ -1,0 +1,174 @@
+@startuml
+class FileManager {
+  + read(): DefaultListModel<String>
+  + save(notes: DefaultListModel<Note>): void
+}
+
+class MainGUI {
+  - controller    : NoteController
+  - creationGUI   : NoteCreationGUI
+  - listGUI       : NoteListGUI
+  - viewGUI       : NoteViewGUI
+  - editGUI       : NoteEditGUI
+  - cardContainer : JPanel
+  - menuBar       : JMenuBar
+  - notesMenu     : JMenu
+  - newNoteItem   : JMenuItem
+  - listNotesItem : JMenuItem
+  + main(args: String[]): void
+  + showMainWindow(): void
+  + switchTo(view: String): void
+}
+
+class NoteCreationGUI {
+  - titleField  : JTextField
+  - contentArea : JTextArea
+  - saveButton  : JButton
+  - controller  : NoteController
+  + showCreateForm(): void
+}
+
+class NoteListGUI {
+  - searchField    : JTextField
+  - searchButton   : JButton
+  - notesListModel : DefaultListModel
+  - notesList      : JList
+  - viewButton     : JButton
+  - controller     : NoteController
+  + showNoteList(notes): void
+}
+
+class NoteViewGUI {
+  - noteTitleLabel  : JLabel
+  - noteContentArea : JTextArea
+  - editButton      : JButton
+  - deleteButton    : JButton
+  - sendButton      : JButton
+  - downloadButton  : JButton
+  - controller      : NoteController
+  + displayNote(note): void
+}
+
+class NoteEditGUI {
+  - titleField    : JTextField
+  - contentArea   : JTextArea
+  - updateButton  : JButton
+  - cancelButton  : JButton
+  - controller    : NoteController
+  + showEditForm(note): void
+}
+
+class NoteController {
+  - service : NoteService
+  + createNote(title, content): void
+  + saveNote(): void
+  + searchNotes(query): void
+  + viewNote(id): void
+  + editNote(id, content): void
+  + deleteNote(id): void
+  + sendNoteTo(id, userId): void
+  + downloadNote(id): void
+}
+
+class NoteService {
+  - repo : NoteRepository
+  + createNote(userId, title, content): Note
+  + saveNote(note): void
+  + searchByTitle(title): Note[]
+  + getNoteById(id): Note
+  + updateNote(id, content): Note
+  + deleteNote(id): void
+  + sendNote(id, toUserId): void
+  + downloadContent(id): byte[]
+}
+
+class AuthService {
+  - userRepo : UserRepository
+  + register(email, password): User
+  + login(email, password): boolean
+  + logout(userId): void
+}
+
+class NoteRepository {
+  + save(note): void
+  + findByTitle(title): Note[]
+  + findById(id): Note
+  + delete(note): void
+}
+
+class UserRepository {
+  + save(user): void
+  + findById(id): User
+  + findByEmail(email): User
+}
+
+class Note {
+  - id         : String
+  - title      : String
+  - content    : String
+  - createdAt  : DateTime
+  - updatedAt  : DateTime
+  - owner      : User
+  - sharedWith : List<User>
+  - attachments: List<MediaAttachment>
+  + Note(id, title, content, createdAt, updatedAt, owner)
+  + getId(): String
+  + setId(id: String)
+  + getTitle(): String
+  + setTitle(title: String)
+  + getContent(): String
+  + setContent(content: String)
+  + getCreatedAt(): DateTime
+  + setCreatedAt(createdAt: DateTime)
+  + getUpdatedAt(): DateTime
+  + setUpdatedAt(updatedAt: DateTime)
+  + getOwner(): User
+  + setOwner(owner: User)
+  + getSharedWith(): List<User>
+  + getAttachments(): List<MediaAttachment>
+  + equals(o: Object): boolean
+  + hashCode(): int
+  + toString(): String
+  + addMedia(m): void
+  + removeMedia(m): void
+  + shareWith(user: User): void
+}
+
+class MediaAttachment {
+  - id       : String
+  - filename : String
+  - size     : Long
+  - mimeType : String
+  + getStream(): InputStream
+}
+
+class User {
+  - id           : String
+  - email        : String
+  - passwordHash : String
+  + validatePassword(pw): boolean
+  + setPassword(pw): void
+}
+
+MainGUI *-- NoteCreationGUI
+MainGUI *-- NoteListGUI
+MainGUI *-- NoteViewGUI
+MainGUI *-- NoteEditGUI
+MainGUI --> NoteController
+
+NoteCreationGUI --> NoteController
+NoteListGUI     --> NoteController
+NoteViewGUI     --> NoteController
+NoteEditGUI     --> NoteController
+
+NoteController --> NoteService
+NoteService    --> NoteRepository
+NoteService    --> UserRepository
+NoteRepository --> FileManager
+AuthService --> UserRepository
+NoteRepository ..> Note
+Note *-- "0..*" MediaAttachment
+Note --> User
+Note --> "0..*" User
+
+@enduml
