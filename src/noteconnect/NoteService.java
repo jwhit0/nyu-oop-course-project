@@ -1,5 +1,6 @@
 package noteconnect;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,7 @@ public class NoteService {
         this.userRepo = userRepo;
     }
 
-    public Note createNote(String title, String content, int userId) {
+    public Note createNote(String title, String content, int userId) throws IOException {
         User owner = userRepo.findById(userId);
         Note note = new Note(
                 UUID.randomUUID().toString(),
@@ -27,7 +28,7 @@ public class NoteService {
         return note;
     }
 
-    public void saveNote(Note note) {
+    public void saveNote(Note note) throws IOException {
         note.setUpdatedAt(LocalDateTime.now());
         repo.save(note);
     }
@@ -40,7 +41,7 @@ public class NoteService {
         return repo.findById(id);
     }
 
-    public Note updateNote(String id, String newContent) {
+    public Note updateNote(String id, String newContent) throws IOException {
         Note note = repo.findById(id);
         if (note != null) {
             note.setContent(newContent);
@@ -50,14 +51,14 @@ public class NoteService {
         return note;
     }
 
-    public void deleteNote(String id) {
+    public void deleteNote(String id) throws IOException {
         Note note = repo.findById(id);
         if (note != null) {
             repo.delete(note);
         }
     }
 
-    public void sendNote(String noteId, int toUserId) {
+    public void sendNote(String noteId, int toUserId) throws IOException {
         Note note = repo.findById(noteId);
         if (note != null) {
             User user = userRepo.findById(toUserId);
